@@ -155,11 +155,23 @@ public class ManagerDisplay {
             else if(data[i][1].equals("-1")){
                 data[i][1] = "Cash";
             }
+            else if(data[i][1].equals("-3")){
+                data[i][1] = "Stock Purchase";
+            }
+            else if(data[i][1].equals("-4")){
+                data[i][1] = "Trading Fees";
+            }
             if(data[i][2].equals("-2")){
                 data[i][2] = "Bank";
             }
             else if(data[i][2].equals("-1")){
                 data[i][2] = "Cash";
+            }
+            else if(data[i][2].equals("-3")){
+                data[i][2] = "Stock Purchase";
+            }
+            else if(data[i][2].equals("-4")){
+                data[i][2] = "Trading Fees";
             }
             i += 1;
         }

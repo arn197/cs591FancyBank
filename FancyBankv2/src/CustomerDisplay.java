@@ -57,7 +57,7 @@ public class CustomerDisplay {
                     data[i][0] = "Sell";
                 }
                 data[i][1] = t.getCode();
-                data[i][2] = String.valueOf(t.getN_stock());
+                data[i][2] = "";
                 data[i][3] = String.valueOf(transaction.getAmount());
                 i += 1;
                 continue;
@@ -66,7 +66,8 @@ public class CustomerDisplay {
                 data[i][0] = "Debit";
                 if(transaction.getReceiving_account_id() == -1) data[i][1] = "Cash Withdrawal";
                 else if(transaction.getReceiving_account_id() == -2) data[i][1] = "Bank Charge";
-                else if(transaction.getReceiving_account_id() == -3) data[i][1] = "Stock";
+                else if(transaction.getReceiving_account_id() == -3) data[i][1] = "Stock Purchase";
+                else if(transaction.getReceiving_account_id() == -4) data[i][1] = "Trading Fees";
                 else data[i][1] = String.valueOf(transaction.getReceiving_account_id());
                 data[i][2] = String.valueOf(transaction.getSending_account_id());
             }
@@ -74,7 +75,8 @@ public class CustomerDisplay {
                 data[i][0] = "Credit";
                 if(transaction.getSending_account_id() == -1) data[i][1] = "Cash Deposit";
                 else if(transaction.getSending_account_id() == -2) data[i][1] = "Bank Deposit";
-                else if(transaction.getSending_account_id() == -3) data[i][1] = "Stock";
+                else if(transaction.getSending_account_id() == -3) data[i][1] = "Stock Purchase";
+                else if(transaction.getSending_account_id() == -4) data[i][1] = "Trading Fees";
                 else data[i][1] = String.valueOf(transaction.getSending_account_id());
                 data[i][2] = String.valueOf(transaction.getReceiving_account_id());
             }

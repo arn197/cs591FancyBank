@@ -28,7 +28,7 @@ public class Customer {
         loans.add(new Loan(duration, amount, this.customer_id, collateral_name, collateral_amount, interest_rate));
     }
 
-    public boolean buyStock(double amount, int account_number, Stock stock, int paying_account_number){
+    public boolean buyStock(double amount, int account_number, Stock stock, int paying_account_number, double fees){
         SecurityAccount securityAccount = null;
         Account paying = null;
         for(Account account: accounts){
@@ -40,7 +40,7 @@ public class Customer {
             }
         }
         if(paying == null || securityAccount == null) return false;
-        if(stock.getValue() * amount >= paying.getBalance()) return false;
+        if(stock.getValue() * amount + fees >= paying.getBalance()) return false;
         int flag = 0;
         for(Stock stock1: securityAccount.getStocks()){
             if(stock1.getCode().equals(stock.getCode())){
@@ -49,11 +49,11 @@ public class Customer {
             }
         }
         if(flag == 0) securityAccount.addStock(new Stock(stock.getCode(), stock.getValue(), amount));
-        paying.setBalance(paying.getBalance() - stock.getValue() * amount);
+        paying.setBalance(paying.getBalance() - stock.getValue() * amount - fees);
         return true;
     }
 
-    public boolean sellStock(double amount, int account_number, Stock stock, int paying_account_number){
+    public boolean sellStock(double amount, int account_number, Stock stock, int paying_account_number, double fees){
         SecurityAccount securityAccount = null;
         Account paying = null;
         for(Account account: accounts){
@@ -65,6 +65,7 @@ public class Customer {
             }
         }
         if(paying == null || securityAccount == null) return false;
+        if(paying.getBalance() - fees + stock.getValue() * amount <= 0) return false;
         Stock s = null;
         int flag = 0;
         for(Stock stock1: securityAccount.getStocks()){
@@ -81,7 +82,7 @@ public class Customer {
         if(s != null){
             securityAccount.removeStocks(s);
         }
-        paying.setBalance(paying.getBalance() + stock.getValue() * amount);
+        paying.setBalance(paying.getBalance() + stock.getValue() * amount - fees);
         return true;
     }
 

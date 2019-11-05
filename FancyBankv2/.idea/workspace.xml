@@ -2,41 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="05ed17fd-d368-4c09-b4dd-aca4c4290352" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/DBAffair.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/JDBCUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/jdbc.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FancyBankv2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/FancyBankv2.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/Account.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/Account.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/AccountDisplay$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/AccountDisplay$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/AccountDisplay$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/AccountDisplay$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/AccountDisplay.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/AccountDisplay.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/Bank.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/Bank.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/BankDisplay$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/BankDisplay$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/BankDisplay$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/BankDisplay$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/BankDisplay$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/BankDisplay$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/BankDisplay.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/BankDisplay.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/BankSystem.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/BankSystem.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/ButtonOptions.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/ButtonOptions.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/Customer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/Customer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/CustomerDisplay.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/CustomerDisplay.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/FormDisplay.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/FormDisplay.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/Loan.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/Loan.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/LoanDisplay$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/LoanDisplay$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/LoanDisplay.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/LoanDisplay.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/Manager.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/Manager.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/ManagerDisplay.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/ManagerDisplay.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/RegisterDisplay.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/RegisterDisplay.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/SecurityAccount.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/SecurityAccount.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/Stock.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/Stock.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/StockTransaction.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/StockTransaction.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/TableView$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/TableView$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/TableView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/TableView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/Transaction.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/Transaction.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/TransferDisplay.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/TransferDisplay.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/UserDisplay.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/UserDisplay.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AccountDisplay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AccountDisplay.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Bank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Bank.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BankSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BankSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Customer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CustomerDisplay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CustomerDisplay.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ManagerDisplay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ManagerDisplay.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SecurityAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SecurityAccount.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TransferDisplay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TransferDisplay.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -50,19 +32,33 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/BankSystem.java">
+        <entry file="file://$PROJECT_DIR$/src/Bank.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2126">
-              <caret line="1" column="27" lean-forward="true" selection-start-line="1" selection-start-column="27" selection-end-line="1" selection-end-column="27" />
+            <state relative-caret-position="-1116">
+              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/BankSystem.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="171">
+              <caret line="15" selection-start-line="15" selection-end-line="15" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#4224#4225#0" expanded="true" />
+                <element signature="e#4279#4280#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/DBAffair.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="23">
-              <caret line="1" column="1" lean-forward="true" selection-end-line="2" />
+            <state relative-caret-position="46">
+              <caret line="2" selection-start-line="2" selection-end-line="2" />
             </state>
           </provider>
         </entry>
@@ -84,11 +80,12 @@
       <list>
         <option value="$PROJECT_DIR$/src/JDBCUtil.java" />
         <option value="$PROJECT_DIR$/src/jdbc.properties" />
+        <option value="$PROJECT_DIR$/src/DBAffair.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-70" />
+    <option name="x" value="-9" />
     <option name="y" value="23" />
     <option name="width" value="1480" />
     <option name="height" value="828" />
@@ -108,6 +105,24 @@
           <expand>
             <path>
               <item name="FancyBankv2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="FancyBankv2" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="FancyBankv2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="FancyBankv2" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="FancyBankv2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="FancyBankv2" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+              <item name="production" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="FancyBankv2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="FancyBankv2" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+              <item name="production" type="462c0819:PsiDirectoryNode" />
               <item name="FancyBankv2" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -178,13 +193,12 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3663000" />
+    <option name="totallyTimeSpent" value="4032000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="216" y="23" width="1440" height="828" extended-state="0" />
-    <editor active="true" />
+    <frame x="-9" y="23" width="1480" height="828" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2532189" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24617524" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -193,7 +207,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32744566" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32744566" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -340,17 +354,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/BankSystem.java">
+    <entry file="file://$PROJECT_DIR$/src/Bank.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2126">
-          <caret line="1" column="27" lean-forward="true" selection-start-line="1" selection-start-column="27" selection-end-line="1" selection-end-column="27" />
+        <state relative-caret-position="-1116">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/DBAffair.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="23">
-          <caret line="1" column="1" lean-forward="true" selection-end-line="2" />
+        <state relative-caret-position="46">
+          <caret line="2" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/BankSystem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="15" selection-start-line="15" selection-end-line="15" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4224#4225#0" expanded="true" />
+            <element signature="e#4279#4280#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
