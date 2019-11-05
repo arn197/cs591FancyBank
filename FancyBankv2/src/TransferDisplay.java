@@ -24,9 +24,15 @@ public class TransferDisplay {
         ArrayList<JPanel> components = new ArrayList<>();
 
         ArrayList<Account> accounts = customer.getAccounts();
-        String[][] data = new String[accounts.size()][3];
+        int count = 0;
+        for(Account account: accounts){
+            if(account.getType().equals("Security")) continue;
+            count++;
+        }
+        String[][] data = new String[count][3];
         int i = 0;
         for(Account account: accounts){
+            if(account.getType().equals("Security")) continue;
             data[i][0] = String.valueOf(account.getAccount_number());
             data[i][1] = account.getType();
             data[i][2] = String.valueOf(account.getBalance());

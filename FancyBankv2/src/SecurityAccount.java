@@ -4,7 +4,7 @@ public class SecurityAccount extends Account {
     private ArrayList<Stock> stocks;
 
     SecurityAccount(int account_number, int customer_id) {
-        super(account_number, customer_id, "Security", -1);
+        super(account_number, customer_id, "Security", 0);
         stocks = new ArrayList<>();
     }
 
