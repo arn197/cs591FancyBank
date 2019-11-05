@@ -1,19 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="05ed17fd-d368-4c09-b4dd-aca4c4290352" name="Default Changelist" comment="" />
+    <list default="true" id="05ed17fd-d368-4c09-b4dd-aca4c4290352" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/SecurityAccount.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Stock.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/StockTransaction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/AccountDisplay.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/AccountDisplay.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/Bank.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/Bank.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/BankDisplay.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/BankDisplay.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FancyBankv2/BankSystem.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FancyBankv2/BankSystem.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AccountDisplay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AccountDisplay.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Bank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Bank.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BankDisplay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BankDisplay.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BankSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BankSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Customer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CustomerDisplay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CustomerDisplay.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ManagerDisplay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ManagerDisplay.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UserDisplay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UserDisplay.java" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="ProjectId" id="1T1ppMYGqoXzTDo0d69NV3CQXuU" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../cs591FancyBank" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="restartRequiresConfirmation" value="false" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -48,5 +79,18 @@
       <updated>1572637637048</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

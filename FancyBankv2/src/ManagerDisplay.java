@@ -179,7 +179,7 @@ public class ManagerDisplay {
         TableView loans_table = new TableView(data, columnNames, "Loans", options[2]);
         jPanels.add(loans_table);
 
-        String[] top_buttons = new String[]{"Bank Settings","Logout"};
+        String[] top_buttons = new String[]{"Stock Market","Bank Settings","Logout"};
         ActionListener actionListener = actionEvent -> BankSystem.buttonPress(actionEvent.getActionCommand());
         ArrayList<Component> components = new ArrayList<>();
         for(String s: top_buttons){

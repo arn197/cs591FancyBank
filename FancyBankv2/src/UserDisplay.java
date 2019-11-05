@@ -15,7 +15,9 @@ public class UserDisplay extends JPanel {
         welcome_text.setName(welcome);
         top.add(welcome_text, BorderLayout.LINE_START);
 
-        top.add(buttonOptions, BorderLayout.LINE_END);
+        if(buttonOptions != null){
+            top.add(buttonOptions, BorderLayout.LINE_END);
+        }
 
         c.anchor = GridBagConstraints.PAGE_START;
         c.gridx = 0;

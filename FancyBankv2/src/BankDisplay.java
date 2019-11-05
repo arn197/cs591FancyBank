@@ -157,6 +157,12 @@ public class BankDisplay extends JFrame {
         this.changeDisplay(userDisplay);
     }
 
+    public void viewAccount(SecurityAccount account, ArrayList<StockTransaction> stockTransactions, Customer customer, ArrayList<Stock> available_stocks, ArrayList<Account> accounts){
+        AccountDisplay accountDisplay = new AccountDisplay(account, stockTransactions, customer, available_stocks, accounts);
+        UserDisplay userDisplay = new UserDisplay(accountDisplay.getName(), accountDisplay.getjPanels(), accountDisplay.getButtonOptions());
+        this.changeDisplay(userDisplay);
+    }
+
     public void viewAccount(Account account, ArrayList<Transaction> transactions, Customer customer){
         AccountDisplay accountDisplay = new AccountDisplay(account, transactions, customer);
         this.changeDisplay(accountDisplay);

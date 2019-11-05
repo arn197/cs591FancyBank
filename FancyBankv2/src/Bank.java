@@ -16,8 +16,26 @@ public class Bank {
     private double interest_rate;
     private double loan_interest_rate;
     private int manager_online = 0;
+    private int min_security_balance;
     private Account mainAccount;
     private ArrayList<Transaction> new_transactions;
+    private ArrayList<Stock> available_stocks;
+
+    public ArrayList<Stock> getAvailable_stocks() {
+        return available_stocks;
+    }
+
+    public void setAvailable_stocks(ArrayList<Stock> available_stocks) {
+        this.available_stocks = available_stocks;
+    }
+
+    public int getMin_security_balance() {
+        return min_security_balance;
+    }
+
+    public void setMin_security_balance(int min_security_balance) {
+        this.min_security_balance = min_security_balance;
+    }
 
     public Double[] getConversion_rates() {
         return conversion_rates;
@@ -68,6 +86,20 @@ public class Bank {
 
     public void setAccount_types(ArrayList<String> account_types) {
         this.account_types = account_types;
+    }
+
+    public ArrayList<StockTransaction> getSecurityTransactionsAccount(Account account){
+        ArrayList<StockTransaction> t = new ArrayList<>();
+        if(account.getType().equals("Security")){
+            for(Transaction transaction: this.transactions){
+                if(transaction instanceof StockTransaction){
+                    if(transaction.getReceiving_account_id() == account.getAccount_number() || transaction.getSending_account_id() == account.getAccount_number()){
+                        t.add((StockTransaction) transaction);
+                    }
+                }
+            }
+        }
+        return t;
     }
 
     public ArrayList<Transaction> getTransactionsAccount(Account account){
@@ -128,14 +160,42 @@ public class Bank {
         return false;
     }
 
+    public boolean buyStock(double amount, int account_number, int stock_code, int paying){
+        amount = (int) amount;
+        Stock stock = this.available_stocks.get(stock_code);
+        int paying_acc = getCustomers().get(current_user).getAccounts().get(paying).getAccount_number();
+        boolean flag = customers.get(current_user).buyStock(amount, account_number, stock, paying_acc);
+        if(flag){
+            transactions.add(new Transaction(-3, -1, paying_acc, current_user, amount * stock.getValue()));
+            new_transactions.add(transactions.get(transactions.size() - 1));
+            transactions.add(new StockTransaction(-1, -1, account_number, current_user, amount * stock.getValue(), stock.getCode(), (int) amount));
+            new_transactions.add(transactions.get(transactions.size() - 1));
+        }
+        return flag;
+    }
+
+    public boolean sellStock(double amount, int account_number, int stock_code, int paying){
+        amount = (int) amount;
+        Stock stock = this.available_stocks.get(stock_code);
+        int paying_acc = getCustomers().get(current_user).getAccounts().get(paying).getAccount_number();
+        boolean flag = customers.get(current_user).sellStock(amount, account_number, stock, paying_acc);
+        if(flag){
+            transactions.add(new Transaction(paying_acc, current_user, -3, -1, amount * stock.getValue()));
+            new_transactions.add(transactions.get(transactions.size() - 1));
+            transactions.add(new StockTransaction(account_number, current_user, -1, -1, amount * stock.getValue(), stock.getCode(), (int) amount));
+            new_transactions.add(transactions.get(transactions.size() - 1));
+        }
+        return flag;
+    }
+
     public boolean withdraw(double amount, int account_number){
         int flag = customers.get(current_user).withdraw(amount, account_number, service_charge);
         if(flag >= 0){
             transactions.add(new Transaction(-1,-1,account_number, current_user, amount));
-            new_transactions.add(transactions.get(transactions.size() -1 ));
+            new_transactions.add(transactions.get(transactions.size() - 1));
             if(flag == 1) {
                 chargeService(account_number);
-                new_transactions.add(transactions.get(transactions.size() -1 ));
+                new_transactions.add(transactions.get(transactions.size() - 1));
             }
             return true;
         }
@@ -145,7 +205,7 @@ public class Bank {
     public boolean deposit(double amount, int account_number){
         if(customers.get(current_user).deposit(amount, account_number)){
             transactions.add(new Transaction(account_number,current_user,-1, -1, amount));
-            new_transactions.add(transactions.get(transactions.size() -1 ));
+            new_transactions.add(transactions.get(transactions.size() - 1));
             return true;
         }
         return false;
@@ -217,16 +277,16 @@ public class Bank {
         this.minimum_balance = minimum_balance;
     }
 
-    Bank(String name, int starting_balance, int minimum_balance, String manager_name, String pass, double service_charge, double interest_rate, double loan_interest_rate, double interest_balance, String[] currency, Double[] conversion_rates){
+    Bank(String name, int starting_balance, int minimum_balance, String manager_name, String pass, double service_charge, double interest_rate, double loan_interest_rate, double interest_balance, String[] currency, Double[] conversion_rates, ArrayList<String> account_types, int min_security_balance, ArrayList<Stock> available_stocks){
         customers = new ArrayList<>();
         managers = new ArrayList<>();
         transactions = new ArrayList<>();
-        account_types = new ArrayList<>();
+        this.account_types = account_types;
         new_transactions = new ArrayList<>();
-        account_types.add("Checking");
-        account_types.add("Savings");
-        this.currencies = new String[]{"USD","GBP","INR"};
-        this.conversion_rates = new Double[]{1.0, 1.30, 0.014};
+        this.available_stocks = available_stocks;
+        this.min_security_balance = min_security_balance;
+//        this.currencies = new String[]{"USD","GBP","INR"};
+//        this.conversion_rates = new Double[]{1.0, 1.30, 0.014};
         this.minimum_balance = minimum_balance;
         this.interest_balance = interest_balance;
         this.interest_rate = interest_rate;
@@ -287,10 +347,16 @@ public class Bank {
 
 
     public void addAccount(int customer_id, double balance, String type){
-        Account account = new Account(this.accountCount, customer_id, type, balance);
-        this.transactions.add(new Transaction(this.accountCount, customer_id, -1, -1, balance));
-        new_transactions.add(transactions.get(transactions.size() -1 ));
-        if(type.equals("Checking")) chargeService(account.getAccount_number());
+        Account account;
+        if (type.equals("Security")) {
+            account = new SecurityAccount(this.accountCount, customer_id);
+        }
+        else{
+            account = new Account(this.accountCount, customer_id, type, balance);
+            this.transactions.add(new Transaction(this.accountCount, customer_id, -1, -1, balance));
+            new_transactions.add(transactions.get(transactions.size() -1 ));
+            if(type.equals("Checking")) chargeService(account.getAccount_number());
+        }
         this.accountCount += 1;
         this.customers.get(customer_id).addAccount(account);
     }
@@ -309,6 +375,15 @@ public class Bank {
     }
 
     public String newAccount(double balance, String type){
+        if(type.equals("Security")){
+            for(Account account: getCustomers().get(current_user).getAccounts()){
+                if(account.getBalance() >= this.min_security_balance){
+                    addAccount(current_user, -1, type);
+                    return "success";
+                }
+            }
+            return "Security account needs a min balance of " + this.min_security_balance;
+        }
         if(balance < minimum_balance) return "Minimum balance is " + minimum_balance;
         if(current_user == -1) return "User not registered";
         addAccount(current_user, balance, type);

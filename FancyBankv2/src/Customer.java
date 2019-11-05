@@ -28,6 +28,63 @@ public class Customer {
         loans.add(new Loan(duration, amount, this.customer_id, collateral_name, collateral_amount, interest_rate));
     }
 
+    public boolean buyStock(double amount, int account_number, Stock stock, int paying_account_number){
+        SecurityAccount securityAccount = null;
+        Account paying = null;
+        for(Account account: accounts){
+            if(account_number == account.getAccount_number()){
+                securityAccount = (SecurityAccount) account;
+            }
+            if(paying_account_number == account.getAccount_number()){
+                paying = account;
+            }
+        }
+        if(paying == null || securityAccount == null) return false;
+        if(stock.getValue() * amount >= paying.getBalance()) return false;
+        int flag = 0;
+        for(Stock stock1: securityAccount.getStocks()){
+            if(stock1.getCode().equals(stock.getCode())){
+                stock1.setN_stocks(stock1.getN_stocks() + amount);
+                flag = 1;
+            }
+        }
+        if(flag == 0) securityAccount.addStock(new Stock(stock.getCode(), stock.getValue(), amount));
+        paying.setBalance(paying.getBalance() - stock.getValue() * amount);
+        return true;
+    }
+
+    public boolean sellStock(double amount, int account_number, Stock stock, int paying_account_number){
+        SecurityAccount securityAccount = null;
+        Account paying = null;
+        for(Account account: accounts){
+            if(account_number == account.getAccount_number()){
+                securityAccount = (SecurityAccount) account;
+            }
+            if(paying_account_number == account.getAccount_number()){
+                paying = account;
+            }
+        }
+        if(paying == null || securityAccount == null) return false;
+        Stock s = null;
+        int flag = 0;
+        for(Stock stock1: securityAccount.getStocks()){
+            if(stock1.getCode().equals(stock.getCode()) && stock1.getN_stocks() >= amount){
+                stock1.setN_stocks(stock1.getN_stocks() - amount);
+                if(stock1.getN_stocks() == 0){
+                    s = stock1;
+                }
+                flag = 1;
+            }
+        }
+        if(flag == 0) return false;
+
+        if(s != null){
+            securityAccount.removeStocks(s);
+        }
+        paying.setBalance(paying.getBalance() + stock.getValue() * amount);
+        return true;
+    }
+
     public int withdraw(double amount, int account_number, double service_charge){
         for(Account account: accounts){
             if(account_number == account.getAccount_number()){

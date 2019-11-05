@@ -48,10 +48,25 @@ public class CustomerDisplay {
         data = new String[transactions.size()][4];
         i = 0;
         for(Transaction transaction: transactions){
+            if(transaction instanceof StockTransaction){
+                StockTransaction t = (StockTransaction) transaction;
+                if(transaction.getSending_user_id() == customer.getCustomer_id()){
+                    data[i][0] = "Buy";
+                }
+                else{
+                    data[i][0] = "Sell";
+                }
+                data[i][1] = t.getCode();
+                data[i][2] = String.valueOf(t.getN_stock());
+                data[i][3] = String.valueOf(transaction.getAmount());
+                i += 1;
+                continue;
+            }
             if(transaction.getSending_user_id() == customer.getCustomer_id()){
                 data[i][0] = "Debit";
                 if(transaction.getReceiving_account_id() == -1) data[i][1] = "Cash Withdrawal";
                 else if(transaction.getReceiving_account_id() == -2) data[i][1] = "Bank Charge";
+                else if(transaction.getReceiving_account_id() == -3) data[i][1] = "Stock";
                 else data[i][1] = String.valueOf(transaction.getReceiving_account_id());
                 data[i][2] = String.valueOf(transaction.getSending_account_id());
             }
@@ -59,6 +74,7 @@ public class CustomerDisplay {
                 data[i][0] = "Credit";
                 if(transaction.getSending_account_id() == -1) data[i][1] = "Cash Deposit";
                 else if(transaction.getSending_account_id() == -2) data[i][1] = "Bank Deposit";
+                else if(transaction.getSending_account_id() == -3) data[i][1] = "Stock";
                 else data[i][1] = String.valueOf(transaction.getSending_account_id());
                 data[i][2] = String.valueOf(transaction.getReceiving_account_id());
             }

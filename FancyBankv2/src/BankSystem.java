@@ -15,7 +15,9 @@ public class BankSystem {
     }
 
     public static void register_interface(){
-        bankDisplay.register(bank.getAccount_types());
+        ArrayList<String> account_types = new ArrayList<>(bank.getAccount_types());
+        account_types.remove("Security");
+        bankDisplay.register(account_types);
     }
 
     public static void loan_interface(){
@@ -62,6 +64,14 @@ public class BankSystem {
         return bank.newAccount(balance, type);
     }
 
+    public static boolean buyStock(double amount, int account_number, int stock_code, int paying){
+        return bank.buyStock(amount, account_number, stock_code, paying);
+    }
+
+    public static boolean sellStock(double amount, int account_number, int stock_code, int paying){
+        return bank.sellStock(amount, account_number, stock_code, paying);
+    }
+
     public static boolean withdraw(double amount, int account_number){
         return bank.withdraw(amount, account_number);
     }
@@ -71,7 +81,8 @@ public class BankSystem {
     }
 
     public static void viewAccount(Account account){
-        bankDisplay.viewAccount(account,bank.getTransactionsAccount(account),bank.getCustomers().get(bank.getCurrent_user()));
+        if(account.getType().equals("Security")) bankDisplay.viewAccount((SecurityAccount) account, bank.getSecurityTransactionsAccount(account), bank.getCustomers().get(bank.getCurrent_user()), bank.getAvailable_stocks(), bank.getCustomers().get(bank.getCurrent_user()).getAccounts());
+        else bankDisplay.viewAccount(account,bank.getTransactionsAccount(account),bank.getCustomers().get(bank.getCurrent_user()));
     }
 
     public static boolean payLoan(double amount, int account_selection, Loan loan){
@@ -180,6 +191,7 @@ public class BankSystem {
         String bank_name = "The Bank";
         int starting_balance = 1000000;
         int minimum_balance = 100;
+        int min_security_balance = 10000;
         String manager_name = "manager";
         String manager_pass = "123";
         double service_charge = 15.0;
@@ -188,8 +200,19 @@ public class BankSystem {
         double high_interest_balance = 10000;
         String[] currencies = new String[]{"USD","GBP","INR"};
         Double[] conversion_rates = new Double[]{1.0, 1.30, 0.014};
+        ArrayList<String> account_types = new ArrayList<>();
+        account_types.add("Checking");
+        account_types.add("Savings");
+        account_types.add("Security");
 
-        bank = new Bank(bank_name, starting_balance, minimum_balance, manager_name, manager_pass, service_charge, interest_rate, loan_interest_rate, high_interest_balance, currencies, conversion_rates);
+        ArrayList<Stock> available_stocks = new ArrayList<>();
+        available_stocks.add(new Stock("aapl",200,1000));
+        available_stocks.add(new Stock("googl",200,1000));
+
+        bank = new Bank(bank_name, starting_balance, minimum_balance, manager_name, manager_pass, service_charge, interest_rate, loan_interest_rate, high_interest_balance, currencies, conversion_rates, account_types, min_security_balance, available_stocks);
+        bank.newCustomer("Aaron","arn197","123",10000,"Checking");
+        bank.setCurrent_user(0);
         bankDisplay = new BankDisplay(bank, 1280, 720);
+        customer_interface(-1);
     }
 }
