@@ -1,0 +1,2 @@
+FancyBankv2/out
+FancyBankv2/.idea/workspace.xml
