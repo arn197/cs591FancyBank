@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class CustomerDisplay {
@@ -104,7 +105,13 @@ public class CustomerDisplay {
         if(flag == 1) top_buttons = new String[]{"New Account","Transfer","Logout"};
         else top_buttons = new String[]{"Back"};
 
-        ActionListener actionListener = actionEvent -> BankSystem.buttonPress(actionEvent.getActionCommand());
+        ActionListener actionListener = actionEvent -> {
+            try {
+                BankSystem.buttonPress(actionEvent.getActionCommand());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        };
 
         ArrayList<Component> components = new ArrayList<>();
         for(String s: top_buttons){

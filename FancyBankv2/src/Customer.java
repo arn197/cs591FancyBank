@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 
 public class Customer {
+    private int customer_id;
     private String customer_name;
     private String customer_username;
-    private int customer_id;
     private String customer_pass;
     private ArrayList<Account> accounts;
     private ArrayList<Loan> loans;
@@ -24,8 +24,17 @@ public class Customer {
         loans = new ArrayList<>();
     }
 
+    Customer(int customer_id, String customer_name, String customer_username, String customer_pass, ArrayList<Account> accounts, ArrayList<Loan>loans) {
+        this.customer_id = customer_id;
+        this.customer_name = customer_name;
+        this.customer_username = customer_username;
+        this.customer_pass = customer_pass;
+        this.accounts = accounts;
+        this.loans = loans;
+    }
+
     public void requestLoan(int duration, double amount, String collateral_name, double collateral_amount, double interest_rate){
-        loans.add(new Loan(duration, amount, this.customer_id, collateral_name, collateral_amount, interest_rate));
+        loans.add(new Loan(duration, amount, this.customer_id, loans.size()+1, collateral_name, collateral_amount, interest_rate));
     }
 
     public boolean buyStock(double amount, int account_number, Stock stock, int paying_account_number, double fees){
