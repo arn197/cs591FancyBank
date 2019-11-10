@@ -8,6 +8,11 @@ public class SecurityAccount extends Account {
         stocks = new ArrayList<>();
     }
 
+    public SecurityAccount(int customer, int account_number, String type, double balance, boolean active, ArrayList<Stock> stocks) {
+        super(customer, account_number, type, balance, active);
+        this.stocks = stocks;
+    }
+
     public void addStock(Stock stock){
         this.stocks.add(stock);
     }

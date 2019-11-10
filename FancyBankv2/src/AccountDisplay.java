@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class AccountDisplay extends JPanel {
@@ -267,7 +268,13 @@ public class AccountDisplay extends JPanel {
         this.jPanels = jPanels;
 
         String[] top_buttons = new String[]{"Back"};
-        ActionListener actionListener = actionEvent -> BankSystem.buttonPress(actionEvent.getActionCommand());
+        ActionListener actionListener = actionEvent -> {
+            try {
+                BankSystem.buttonPress(actionEvent.getActionCommand());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        };
         ArrayList<Component> components = new ArrayList<>();
         for(String s: top_buttons){
             jButton = new JButton(s);

@@ -1,5 +1,6 @@
 public class Loan {
     private int customer_id;
+    private int loan_number;
     private double initial_amount;
     private double balance;
     private double interest_rate;
@@ -16,16 +17,39 @@ public class Loan {
         this.status = status;
     }
 
-    Loan(int duration, double amount, int customer_id, String collateral_name, double collateral_amount, double interest_rate){
+    public Loan(int duration, double amount, int customer_id, int loan_number, String collateral_name, double collateral_amount, double interest_rate){
         this.duration = duration;
         this.initial_amount = amount;
         this.balance = amount;
         this.collateral_name = collateral_name;
         this.collateral_amount = collateral_amount;
         this.customer_id = customer_id;
+        this.loan_number = loan_number;
         this.interest_rate = interest_rate;
         this.status = "Pending";
     }
+
+    // initialize from database
+    public Loan(int customer_id,
+                int loan_number,
+                double initial_amount,
+                double balance,
+                double interest_rate,
+                int duration,
+                String collateral_name,
+                double collateral_amount,
+                String status) {
+        this.customer_id = customer_id;
+        this.loan_number = loan_number;
+        this.initial_amount = initial_amount;
+        this.balance = balance;
+        this.interest_rate = interest_rate;
+        this.duration = duration;
+        this.collateral_name = collateral_name;
+        this.collateral_amount = collateral_amount;
+        this.status = status;
+    }
+
 
     public void approve(){
         this.status = "Active";
@@ -89,5 +113,9 @@ public class Loan {
 
     public void setCollateral_amount(double collateral_amount) {
         this.collateral_amount = collateral_amount;
+    }
+
+    public int getLoan_number() {
+        return loan_number;
     }
 }

@@ -38,38 +38,40 @@ public class JDBCUtil {
     }
 
     // release resource
-    public static void close(Connection conn, Statement stat, ResultSet rs) {
-        close(conn, stat);
-        if (rs != null) {
-            try {
-                rs.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+    public static void close(Connection conn) throws SQLException {
+        if(conn != null) {
+            conn.close();
         }
     }
 
-    public static void close(Connection conn, Statement stat) {
+     // release resource
+    public static void close(Statement stat, ResultSet rs) throws SQLException {
+        if(stat != null) {
+            stat.close();
+        }
+
+        if(rs != null) {
+            rs.close();
+        }
+
+    }
+
+    // release resource
+    public static void close(Connection conn, Statement stat) throws SQLException {
         if (conn != null) {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            conn.close();
         }
         if (stat != null) {
-            try {
-                stat.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            stat.close();
         }
     }
 
-    public static void main(String[] args) throws SQLException {
-        Connection conn = JDBCUtil.getConnection();
-        Statement stmt = conn.createStatement();
-
-        JDBCUtil.close(conn, stmt);
+    // release resource
+    public static void close(Connection conn, Statement stat, ResultSet rs) throws SQLException {
+        close(conn, stat);
+        if (rs != null) {
+            rs.close();
+        }
     }
+
 }

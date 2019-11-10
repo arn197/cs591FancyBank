@@ -1,9 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.event.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class BankDisplay extends JFrame {
@@ -62,6 +60,30 @@ public class BankDisplay extends JFrame {
         this.add(rootPanel);
 
         this.welcome();
+
+         addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				// update database now;
+                try {
+                    if(bank.getCurrent_user() != -1) {
+                        DBAffair dbAffair = new DBAffair();
+                        Customer customer = bank.getCustomers().get(bank.getCurrent_user());
+                        ArrayList<Transaction> transactions = bank.getTransactions();
+                        ArrayList<Stock> stocks = bank.getAvailable_stocks();
+                        dbAffair.update(customer, transactions, stocks);
+                        dbAffair.closeDB();
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+			}
+
+			@Override
+			public void windowClosed(WindowEvent e) {
+			    windowClosing(e);
+            }
+		});
     }
 
     public void welcome(){
