@@ -116,14 +116,23 @@ public class Customer {
         Stock s = null;
         int flag = 0;
 
-        Stock stock1 = securityAccount.getStocks().get(stock_num);
-        if(stock1.getN_stocks() >= amount){
-            stock1.setN_stocks(stock1.getN_stocks() - amount);
-            if(stock1.getN_stocks() == 0){
-                s = stock1;
+        for(Stock stock1: securityAccount.getStocks()){
+            if(stock1.getCode().equals(stock.getCode()) && stock1.getN_stocks() >= amount){
+                stock1.setN_stocks(stock1.getN_stocks() - amount);
+                if(stock1.getN_stocks() == 0){
+                    s = stock1;
+                }
+                flag = 1;
             }
-            flag = 1;
         }
+//        Stock stock1 = securityAccount.getStocks().get(stock_num);
+//        if(stock1.getN_stocks() >= amount){
+//            stock1.setN_stocks(stock1.getN_stocks() - amount);
+//            if(stock1.getN_stocks() == 0){
+//                s = stock1;
+//            }
+//            flag = 1;
+//        }
 
         if(flag == 0) return false;
 
