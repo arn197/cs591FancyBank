@@ -14,15 +14,23 @@ public class DBAffair {
     private Connection connect;
     private static int flag = 0;
 
+    public static void setFlag(int f){
+        flag = f;
+    }
+
+    public static int getFlag(){
+        return flag;
+    }
+
     public DBAffair() throws SQLException{
         connect = JDBCUtil.getConnection();
         if(flag == 1) return;
         try{
             flag = 1;
+            System.out.print("Creating DB");
             ScriptRunner scriptRunner = new ScriptRunner(connect, true, true);
             Reader reader = new BufferedReader(new FileReader("FancyBankv2/sql/FancyBank.sql"));
             scriptRunner.runScript(reader);
-            System.out.print("Hello");
             reader.close();
         }
         catch (Exception e){

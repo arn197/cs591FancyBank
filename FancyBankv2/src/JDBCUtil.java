@@ -38,9 +38,22 @@ public class JDBCUtil {
     // get a connection
     public static Connection getConnection() throws SQLException {
         Connection conn = DriverManager.getConnection(url, user, password);
-        String sql = "create database if not exists " + db_name;
         Statement s = conn.createStatement();
-        s.executeUpdate(sql);
+        ResultSet resultSet = s.executeQuery("show databases");
+        resultSet.beforeFirst();
+        String checkdb = "";
+        resultSet.next();
+        do{
+            checkdb = resultSet.getString("Database");
+            if(checkdb.equals(db_name)){
+                DBAffair.setFlag(1);
+                break;
+            }
+        }while(resultSet.next());
+        if(DBAffair.getFlag() == 0){
+            String sql = "create database if not exists " + db_name;
+            s.executeUpdate(sql);
+        }
         conn = DriverManager.getConnection(db_url, user, password);
         return conn;
     }
