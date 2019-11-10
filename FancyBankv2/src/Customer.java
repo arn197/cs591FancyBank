@@ -53,7 +53,45 @@ public class Customer {
         return true;
     }
 
-    public boolean sellStock(double amount, int account_number, Stock stock, int paying_account_number){
+    public boolean checkIfHoldStock(String stock_code){
+        boolean hold = false;
+        for(Account account: accounts) {
+            String acc_type = account.getType();
+            if(acc_type.equals("Security")){
+                SecurityAccount s_account = (SecurityAccount) account;
+                for(Stock stock1: s_account.getStocks()){
+                    if(stock1.getCode().equals(stock_code)) hold = true;
+                }
+            }
+        }
+        return hold;
+    }
+
+    public void editHoldStock(String stock_code, double new_value){
+        for(Account account: accounts) {
+            String acc_type = account.getType();
+            if(acc_type.equals("Security")){
+                SecurityAccount s_account = (SecurityAccount) account;
+                for(Stock stock1: s_account.getStocks()){
+                    if(stock1.getCode().equals(stock_code)) stock1.setValue(new_value);
+                }
+            }
+        }
+    }
+
+
+    public String getStockCode(int account_number, int stock_num){
+        SecurityAccount securityAccount = null;
+        for(Account account: accounts) {
+            if (account_number == account.getAccount_number()) {
+                securityAccount = (SecurityAccount) account;
+            }
+        }
+        Stock stock = securityAccount.getStocks().get(stock_num);
+        return stock.getCode();
+    }
+
+    public boolean sellStock(double amount, int account_number, int stock_num, int paying_account_number){
         SecurityAccount securityAccount = null;
         Account paying = null;
         for(Account account: accounts){
@@ -65,23 +103,25 @@ public class Customer {
             }
         }
         if(paying == null || securityAccount == null) return false;
+
         Stock s = null;
         int flag = 0;
-        for(Stock stock1: securityAccount.getStocks()){
-            if(stock1.getCode().equals(stock.getCode()) && stock1.getN_stocks() >= amount){
-                stock1.setN_stocks(stock1.getN_stocks() - amount);
-                if(stock1.getN_stocks() == 0){
-                    s = stock1;
-                }
-                flag = 1;
+
+        Stock stock1 = securityAccount.getStocks().get(stock_num);
+        if(stock1.getN_stocks() >= amount){
+            stock1.setN_stocks(stock1.getN_stocks() - amount);
+            if(stock1.getN_stocks() == 0){
+                s = stock1;
             }
+            flag = 1;
         }
+
         if(flag == 0) return false;
 
         if(s != null){
             securityAccount.removeStocks(s);
         }
-        paying.setBalance(paying.getBalance() + stock.getValue() * amount);
+        paying.setBalance(paying.getBalance() + stock1.getValue() * amount);
         return true;
     }
 

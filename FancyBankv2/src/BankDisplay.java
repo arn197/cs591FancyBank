@@ -140,6 +140,19 @@ public class BankDisplay extends JFrame {
         this.changeDisplay(formDisplay);
     }
 
+    public void managerSetStock(double old_value, double old_number, int n){
+        ManagerDisplay managerSetStockDisplay = new ManagerDisplay(old_value, old_number, n);
+        FormDisplay formDisplay = new FormDisplay(managerSetStockDisplay.getComponents());
+        this.changeDisplay(formDisplay);
+    }
+
+
+    public void setStock(ArrayList<Stock> stocks){
+        ManagerDisplay managerSetStockDisplay = new ManagerDisplay(stocks, 0);
+        AddStockDisplay addStockDisplay = new AddStockDisplay(managerSetStockDisplay.getjPanels(), managerSetStockDisplay.getButtonOptions());
+        this.changeDisplay(addStockDisplay);
+    }
+
     public void viewLoan(Customer customer, Loan loan, double interest_rate){
         LoanDisplay loanViewDisplay = new LoanDisplay(customer, loan, interest_rate);
 

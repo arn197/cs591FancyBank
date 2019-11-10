@@ -29,6 +29,35 @@ public class Bank {
         this.available_stocks = available_stocks;
     }
 
+    public boolean addAvailable_stocks(Stock new_stock) {
+        String code = new_stock.getCode();
+        int flag = 1;
+        for(Stock stock1: this.available_stocks){
+            if(stock1.getCode().equals(code)) flag = 0;
+        }
+        if(flag == 1) this.available_stocks.add(new_stock);
+        if(flag == 1) return true;
+        else return false;
+    }
+
+    public void deleteStock(int n) {
+        this.available_stocks.remove(n);
+
+    }
+
+    public void editStock(int n, Double new_value, Double new_number) {
+        this.available_stocks.get(n).setValue(new_value);
+        this.available_stocks.get(n).setN_stocks(new_number);
+    }
+
+    public Stock getStockByCode(String code){
+        for(Stock stock: available_stocks){
+            if(code.equals(stock.getCode())) return stock;
+        }
+        return null;
+    }
+
+
     public int getMin_security_balance() {
         return min_security_balance;
     }
@@ -170,20 +199,24 @@ public class Bank {
             new_transactions.add(transactions.get(transactions.size() - 1));
             transactions.add(new StockTransaction(-1, -1, account_number, current_user, amount * stock.getValue(), stock.getCode(), (int) amount));
             new_transactions.add(transactions.get(transactions.size() - 1));
+            stock.setN_stocks(stock.getN_stocks() - amount);
         }
         return flag;
     }
 
-    public boolean sellStock(double amount, int account_number, int stock_code, int paying){
+    public boolean sellStock(double amount, int account_number, int stock_num, int paying){
         amount = (int) amount;
-        Stock stock = this.available_stocks.get(stock_code);
+        String stock_code = getCustomers().get(current_user).getStockCode(account_number, stock_num);
+        Stock stock = getStockByCode(stock_code);
+
         int paying_acc = getCustomers().get(current_user).getAccounts().get(paying).getAccount_number();
-        boolean flag = customers.get(current_user).sellStock(amount, account_number, stock, paying_acc);
+        boolean flag = customers.get(current_user).sellStock(amount, account_number, stock_num, paying_acc);
         if(flag){
             transactions.add(new Transaction(paying_acc, current_user, -3, -1, amount * stock.getValue()));
             new_transactions.add(transactions.get(transactions.size() - 1));
             transactions.add(new StockTransaction(account_number, current_user, -1, -1, amount * stock.getValue(), stock.getCode(), (int) amount));
             new_transactions.add(transactions.get(transactions.size() - 1));
+            stock.setN_stocks(stock.getN_stocks() + amount);
         }
         return flag;
     }
