@@ -387,11 +387,10 @@ public class Bank {
     public void logout() throws SQLException {
         DBAffair dbAffair = new DBAffair();
         Customer customer = customers.get(getCurrent_user());
-        dbAffair.update(customer, getTransactions(), available_stocks);
-        dbAffair.closeDB();
-
         this.manager_online = 0;
         current_user = -1;
+        dbAffair.update(customer, getTransactions(), available_stocks);
+        dbAffair.closeDB();
     }
 
     public String newAccount(double balance, String type){
