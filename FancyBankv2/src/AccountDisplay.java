@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class AccountDisplay extends JPanel {
@@ -267,7 +268,13 @@ public class AccountDisplay extends JPanel {
         this.jPanels = jPanels;
 
         String[] top_buttons = new String[]{"Back"};
-        ActionListener actionListener = actionEvent -> BankSystem.buttonPress(actionEvent.getActionCommand());
+        ActionListener actionListener = actionEvent -> {
+            try {
+                BankSystem.buttonPress(actionEvent.getActionCommand());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        };
         ArrayList<Component> components = new ArrayList<>();
         for(String s: top_buttons){
             jButton = new JButton(s);
@@ -306,6 +313,8 @@ public class AccountDisplay extends JPanel {
                 data[i][0] = "Debit";
                 if(transaction.getReceiving_account_id() == -1) data[i][1] = "Cash Withdrawal";
                 else if(transaction.getReceiving_account_id() == -2) data[i][1] = "Bank Charge";
+                else if(transaction.getReceiving_account_id() == -3) data[i][1] = "Stock Purchase";
+                else if(transaction.getReceiving_account_id() == -4) data[i][1] = "Trading Fees";
                 else data[i][1] = String.valueOf(transaction.getReceiving_account_id());
                 data[i][2] = String.valueOf(transaction.getSending_account_id());
             }
@@ -313,6 +322,8 @@ public class AccountDisplay extends JPanel {
                 data[i][0] = "Credit";
                 if(transaction.getSending_account_id() == -1) data[i][1] = "Cash Deposit";
                 else if(transaction.getSending_account_id() == -2) data[i][1] = "Bank Deposit";
+                else if(transaction.getSending_account_id() == -3) data[i][1] = "Stock Purchase";
+                else if(transaction.getSending_account_id() == -4) data[i][1] = "Trading Fees";
                 else data[i][1] = String.valueOf(transaction.getSending_account_id());
                 data[i][2] = String.valueOf(transaction.getReceiving_account_id());
             }

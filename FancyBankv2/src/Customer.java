@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 
 public class Customer {
+    private int customer_id;
     private String customer_name;
     private String customer_username;
-    private int customer_id;
     private String customer_pass;
     private ArrayList<Account> accounts;
     private ArrayList<Loan> loans;
@@ -24,11 +24,20 @@ public class Customer {
         loans = new ArrayList<>();
     }
 
-    public void requestLoan(int duration, double amount, String collateral_name, double collateral_amount, double interest_rate){
-        loans.add(new Loan(duration, amount, this.customer_id, collateral_name, collateral_amount, interest_rate));
+    Customer(int customer_id, String customer_name, String customer_username, String customer_pass, ArrayList<Account> accounts, ArrayList<Loan>loans) {
+        this.customer_id = customer_id;
+        this.customer_name = customer_name;
+        this.customer_username = customer_username;
+        this.customer_pass = customer_pass;
+        this.accounts = accounts;
+        this.loans = loans;
     }
 
-    public boolean buyStock(double amount, int account_number, Stock stock, int paying_account_number){
+    public void requestLoan(int duration, double amount, String collateral_name, double collateral_amount, double interest_rate){
+        loans.add(new Loan(duration, amount, this.customer_id, loans.size()+1, collateral_name, collateral_amount, interest_rate));
+    }
+
+    public boolean buyStock(double amount, int account_number, Stock stock, int paying_account_number, double fees){
         SecurityAccount securityAccount = null;
         Account paying = null;
         for(Account account: accounts){
@@ -40,7 +49,7 @@ public class Customer {
             }
         }
         if(paying == null || securityAccount == null) return false;
-        if(stock.getValue() * amount >= paying.getBalance()) return false;
+        if(stock.getValue() * amount + fees >= paying.getBalance()) return false;
         int flag = 0;
         for(Stock stock1: securityAccount.getStocks()){
             if(stock1.getCode().equals(stock.getCode())){
@@ -49,7 +58,7 @@ public class Customer {
             }
         }
         if(flag == 0) securityAccount.addStock(new Stock(stock.getCode(), stock.getValue(), amount));
-        paying.setBalance(paying.getBalance() - stock.getValue() * amount);
+        paying.setBalance(paying.getBalance() - stock.getValue() * amount - fees);
         return true;
     }
 
@@ -91,7 +100,7 @@ public class Customer {
         return stock.getCode();
     }
 
-    public boolean sellStock(double amount, int account_number, int stock_num, int paying_account_number){
+    public boolean sellStock(double amount, int account_number, Stock stock, int paying_account_number, double fees){
         SecurityAccount securityAccount = null;
         Account paying = null;
         for(Account account: accounts){
@@ -103,7 +112,7 @@ public class Customer {
             }
         }
         if(paying == null || securityAccount == null) return false;
-
+        if(paying.getBalance() - fees + stock.getValue() * amount <= 0) return false;
         Stock s = null;
         int flag = 0;
 
@@ -121,7 +130,7 @@ public class Customer {
         if(s != null){
             securityAccount.removeStocks(s);
         }
-        paying.setBalance(paying.getBalance() + stock1.getValue() * amount);
+        paying.setBalance(paying.getBalance() + stock.getValue() * amount - fees);
         return true;
     }
 

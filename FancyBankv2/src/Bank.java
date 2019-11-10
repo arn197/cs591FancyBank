@@ -1,3 +1,4 @@
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Bank {
@@ -5,7 +6,7 @@ public class Bank {
     private ArrayList<Manager> managers;
     private ArrayList<Customer> customers;
     private ArrayList<Transaction> transactions;
-    private int accountCount = 1;
+//    private int accountCount = 1;
     private ArrayList<String> account_types;
     private double minimum_balance;
     private String[] currencies;
@@ -17,6 +18,7 @@ public class Bank {
     private double loan_interest_rate;
     private int manager_online = 0;
     private int min_security_balance;
+    private double trading_fees;
     private Account mainAccount;
     private ArrayList<Transaction> new_transactions;
     private ArrayList<Stock> available_stocks;
@@ -99,18 +101,23 @@ public class Bank {
     }
 
     public void chargeService(int account_number){
-        transactions.add(new Transaction(-2,-2,account_number, current_user, service_charge));
+        transactions.add(new Transaction(transactions.size(), -2,-2,account_number, current_user, service_charge));
         mainAccount.setBalance(mainAccount.getBalance() + service_charge);
     }
 
-    public boolean closeAccount(Customer customer, int pos){
+    public int closeAccount(Customer customer, int pos){
         Account account = customer.getAccounts().get(pos);
         if(account.getType().equals("Checking")){
-            if(account.getBalance() < service_charge) return false;
+            if(account.getBalance() < service_charge) return -1;
             chargeService(account.getAccount_number());
         }
+        else if(account.getType().equals("Security")){
+            if(((SecurityAccount) account).getStocks().size() != 0){
+                return -2;
+            }
+        }
         account.setActive(false);
-        return true;
+        return 0;
     }
 
     public void setAccount_types(ArrayList<String> account_types) {
@@ -166,7 +173,7 @@ public class Bank {
             for(Account account: customer.getAccounts()){
                 if(account.getBalance() >= this.interest_balance){
                     double amt = (this.interest_rate/100.0) * account.getBalance();
-                    transactions.add(new Transaction(account.getAccount_number(), customer.getCustomer_id(), -2, -2, amt));
+                    transactions.add(new Transaction(transactions.size(), account.getAccount_number(), customer.getCustomer_id(), -2, -2, amt));
                     customer.deposit(amt, account.getAccount_number());
                     total += amt;
                     new_transactions.add(transactions.get(transactions.size() -1 ));
@@ -193,11 +200,13 @@ public class Bank {
         amount = (int) amount;
         Stock stock = this.available_stocks.get(stock_code);
         int paying_acc = getCustomers().get(current_user).getAccounts().get(paying).getAccount_number();
-        boolean flag = customers.get(current_user).buyStock(amount, account_number, stock, paying_acc);
+        boolean flag = customers.get(current_user).buyStock(amount, account_number, stock, paying_acc, trading_fees);
         if(flag){
-            transactions.add(new Transaction(-3, -1, paying_acc, current_user, amount * stock.getValue()));
+            transactions.add(new Transaction(transactions.size(), -3, -3, paying_acc, current_user, amount * stock.getValue()));
             new_transactions.add(transactions.get(transactions.size() - 1));
-            transactions.add(new StockTransaction(-1, -1, account_number, current_user, amount * stock.getValue(), stock.getCode(), (int) amount));
+            transactions.add(new Transaction(transactions.size(), -4, -4, paying_acc, current_user, trading_fees));
+            new_transactions.add(transactions.get(transactions.size() - 1));
+            transactions.add(new StockTransaction(transactions.size(), -1, -1, account_number, current_user, amount * stock.getValue(), stock.getCode(), (int) amount));
             new_transactions.add(transactions.get(transactions.size() - 1));
             stock.setN_stocks(stock.getN_stocks() - amount);
         }
@@ -208,13 +217,21 @@ public class Bank {
         amount = (int) amount;
         String stock_code = getCustomers().get(current_user).getStockCode(account_number, stock_num);
         Stock stock = getStockByCode(stock_code);
-
+      
+//         Stock stock = null;
+//         for(Account account: getCustomers().get(current_user).getAccounts()){
+//             if(account.getAccount_number() == account_number){
+//                 stock = ((SecurityAccount) account).getStocks().get(stock_code);
+//             }
+//         }
         int paying_acc = getCustomers().get(current_user).getAccounts().get(paying).getAccount_number();
-        boolean flag = customers.get(current_user).sellStock(amount, account_number, stock_num, paying_acc);
+        boolean flag = customers.get(current_user).sellStock(amount, account_number, stock, paying_acc, trading_fees);
         if(flag){
-            transactions.add(new Transaction(paying_acc, current_user, -3, -1, amount * stock.getValue()));
+            transactions.add(new Transaction(transactions.size(), paying_acc, current_user, -3, -3, amount * stock.getValue()));
             new_transactions.add(transactions.get(transactions.size() - 1));
-            transactions.add(new StockTransaction(account_number, current_user, -1, -1, amount * stock.getValue(), stock.getCode(), (int) amount));
+            transactions.add(new Transaction(transactions.size(), -4, -4, paying_acc, current_user, trading_fees));
+            new_transactions.add(transactions.get(transactions.size() - 1));
+            transactions.add(new StockTransaction(transactions.size(), account_number, current_user, -1, -1, amount * stock.getValue(), stock.getCode(), (int) amount));
             new_transactions.add(transactions.get(transactions.size() - 1));
             stock.setN_stocks(stock.getN_stocks() + amount);
         }
@@ -224,7 +241,7 @@ public class Bank {
     public boolean withdraw(double amount, int account_number){
         int flag = customers.get(current_user).withdraw(amount, account_number, service_charge);
         if(flag >= 0){
-            transactions.add(new Transaction(-1,-1,account_number, current_user, amount));
+            transactions.add(new Transaction(transactions.size(), -1,-1,account_number, current_user, amount));
             new_transactions.add(transactions.get(transactions.size() - 1));
             if(flag == 1) {
                 chargeService(account_number);
@@ -237,7 +254,7 @@ public class Bank {
 
     public boolean deposit(double amount, int account_number){
         if(customers.get(current_user).deposit(amount, account_number)){
-            transactions.add(new Transaction(account_number,current_user,-1, -1, amount));
+            transactions.add(new Transaction(transactions.size(), account_number,current_user,-1, -1, amount));
             new_transactions.add(transactions.get(transactions.size() - 1));
             return true;
         }
@@ -310,10 +327,12 @@ public class Bank {
         this.minimum_balance = minimum_balance;
     }
 
-    Bank(String name, int starting_balance, int minimum_balance, String manager_name, String pass, double service_charge, double interest_rate, double loan_interest_rate, double interest_balance, String[] currency, Double[] conversion_rates, ArrayList<String> account_types, int min_security_balance, ArrayList<Stock> available_stocks){
-        customers = new ArrayList<>();
+    Bank(String name, int starting_balance, int minimum_balance, String manager_name, String pass, double service_charge, double interest_rate, double loan_interest_rate, double interest_balance, String[] currency, Double[] conversion_rates, ArrayList<String> account_types, int min_security_balance, ArrayList<Stock> available_stocks, double trading_fees) throws SQLException {
+        DBAffair dbAffair = new DBAffair();
+        customers = dbAffair.getAllCustomers();
+        transactions = dbAffair.getAllTransaction();
+        dbAffair.closeDB();
         managers = new ArrayList<>();
-        transactions = new ArrayList<>();
         this.account_types = account_types;
         new_transactions = new ArrayList<>();
         this.available_stocks = available_stocks;
@@ -323,6 +342,7 @@ public class Bank {
         this.minimum_balance = minimum_balance;
         this.interest_balance = interest_balance;
         this.interest_rate = interest_rate;
+        this.trading_fees = trading_fees;
         this.loan_interest_rate = loan_interest_rate;
         this.bank_name = name;
         this.currencies = currency;
@@ -331,6 +351,7 @@ public class Bank {
         this.mainAccount = new Account(0, -1, "Checking", starting_balance);
         this.service_charge = service_charge;
     }
+
 
     public String getBank_name() {
         return bank_name;
@@ -381,30 +402,29 @@ public class Bank {
 
     public void addAccount(int customer_id, double balance, String type){
         Account account;
+
+        ArrayList<Account> accounts = customers.get(customer_id).getAccounts();
+
         if (type.equals("Security")) {
-            account = new SecurityAccount(this.accountCount, customer_id);
+            account = new SecurityAccount(accounts.size()+1, customer_id);
         }
         else{
-            account = new Account(this.accountCount, customer_id, type, balance);
-            this.transactions.add(new Transaction(this.accountCount, customer_id, -1, -1, balance));
+            account = new Account(accounts.size()+1, customer_id, type, balance);
+            this.transactions.add(new Transaction(transactions.size(), accounts.size()+1, customer_id, -1, -1, balance));
             new_transactions.add(transactions.get(transactions.size() -1 ));
             if(type.equals("Checking")) chargeService(account.getAccount_number());
         }
-        this.accountCount += 1;
         this.customers.get(customer_id).addAccount(account);
     }
 
-    public int getAccountCount() {
-        return accountCount;
-    }
 
-    public void setAccountCount(int accountCount) {
-        this.accountCount = accountCount;
-    }
-
-    public void logout(){
+    public void logout() throws SQLException {
+        DBAffair dbAffair = new DBAffair();
+        Customer customer = customers.get(getCurrent_user());
         this.manager_online = 0;
         current_user = -1;
+        dbAffair.update(customer, getTransactions(), available_stocks);
+        dbAffair.closeDB();
     }
 
     public String newAccount(double balance, String type){
@@ -452,5 +472,4 @@ public class Bank {
         }
         return null;
     }
-
 }

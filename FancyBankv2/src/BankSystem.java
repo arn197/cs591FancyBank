@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class BankSystem {
@@ -105,7 +106,7 @@ public class BankSystem {
         bankDisplay.viewLoan(customer, loan, interest_rate);
     }
 
-    public static boolean closeAccount(Customer customer, int pos){
+    public static int closeAccount(Customer customer, int pos){
         return bank.closeAccount(customer, pos);
     }
 
@@ -148,8 +149,12 @@ public class BankSystem {
             case "Close Account":
                 pos = jTable.getSelectedRow();
                 customer = bank.getCustomers().get(bank.getCurrent_user());
-                if(!closeAccount(customer, pos)){
+                int res = closeAccount(customer, pos);
+                if(res == -1){
                     bankDisplay.alert("You don't have enough balance to close this account");
+                }
+                else if(res == -2){
+                    bankDisplay.alert("You have active stocks in this account. Sell them first");
                 }
                 else{
                     bankDisplay.alert("Your remaining balance will be sent by check to your registered address");
@@ -203,7 +208,7 @@ public class BankSystem {
         }
     }
 
-    public static void buttonPress(String command){
+    public static void buttonPress(String command) throws SQLException {
         switch(command){
             case "Transfer":
                 Customer customer = bank.getCustomers().get(bank.getCurrent_user());
@@ -228,7 +233,7 @@ public class BankSystem {
         }
     }
 
-    public static void start(){
+    public static void start() throws SQLException {
         String bank_name = "The Bank";
         int starting_balance = 1000000;
         int minimum_balance = 100;
@@ -239,6 +244,7 @@ public class BankSystem {
         double interest_rate = 8.0;
         double loan_interest_rate = 8.0;
         double high_interest_balance = 10000;
+        double trading_fees = 20;
         String[] currencies = new String[]{"USD","GBP","INR"};
         Double[] conversion_rates = new Double[]{1.0, 1.30, 0.014};
         ArrayList<String> account_types = new ArrayList<>();
@@ -246,14 +252,16 @@ public class BankSystem {
         account_types.add("Savings");
         account_types.add("Security");
 
-        ArrayList<Stock> available_stocks = new ArrayList<>();
-        available_stocks.add(new Stock("aapl",200,1000));
-        available_stocks.add(new Stock("googl",200,1000));
+        DBAffair dbAffair = new DBAffair();
+        ArrayList<Stock> available_stocks = dbAffair.getAllStocks();
+        dbAffair.closeDB();
 
-        bank = new Bank(bank_name, starting_balance, minimum_balance, manager_name, manager_pass, service_charge, interest_rate, loan_interest_rate, high_interest_balance, currencies, conversion_rates, account_types, min_security_balance, available_stocks);
-        bank.newCustomer("p","p","123",10000,"Checking");
-        bank.setCurrent_user(0);
+        bank = new Bank(bank_name, starting_balance, minimum_balance, manager_name, manager_pass, service_charge, interest_rate, loan_interest_rate, high_interest_balance, currencies, conversion_rates, account_types, min_security_balance, available_stocks, trading_fees);
+//         bank.newCustomer("p","p","123",10000,"Checking");
+//         bank.setCurrent_user(0);
+        //bank.newCustomer("Aaron", "arn197", "123", 10000, "Checking");
+        //bank.setCurrent_user(0);
         bankDisplay = new BankDisplay(bank, 1280, 720);
-        customer_interface(-1);
+        //customer_interface(-1);
     }
 }
