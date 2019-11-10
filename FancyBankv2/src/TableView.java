@@ -29,7 +29,11 @@ public class TableView extends JPanel {
         public void actionPerformed(ActionEvent actionEvent) {
             int pos = jTable.getSelectedRow();
             title.setText(title.getName());
-            if(pos < 0 && (!actionEvent.getActionCommand().contains("Pay") && !actionEvent.getActionCommand().contains("Request") && !actionEvent.getActionCommand().contains("Get Report"))){
+            if(pos < 0 && (!actionEvent.getActionCommand().contains("Pay")
+                    && !actionEvent.getActionCommand().contains("Request")
+                    && !actionEvent.getActionCommand().contains("Get Report")
+                    && !actionEvent.getActionCommand().contains("Edit")
+                    && !actionEvent.getActionCommand().contains("Delete"))){
                 title.setText("Please select a row");
             }
             else BankSystem.tableButtonPress(actionEvent.getActionCommand(), jTable);

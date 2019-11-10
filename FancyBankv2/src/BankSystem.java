@@ -110,6 +110,34 @@ public class BankSystem {
         return bank.closeAccount(customer, pos);
     }
 
+    public static boolean addStock(String code, Double value, Double number){
+        Stock new_stock = new Stock(code, value, number);
+        return bank.addAvailable_stocks(new_stock);
+    }
+
+    public static void deleteStock(int n){
+        boolean isHold = false;
+        boolean chold;
+        for(Customer customer:bank.getCustomers()){
+            chold = customer.checkIfHoldStock(bank.getAvailable_stocks().get(n).getCode());
+            isHold = isHold || chold;
+        }
+        if(!isHold) bank.deleteStock(n);
+    }
+
+    public static void editStock(int n, Double new_value, Double new_number){
+        bank.editStock(n, new_value, new_number);
+        for(Customer customer:bank.getCustomers()) {
+            customer.editHoldStock(bank.getAvailable_stocks().get(n).getCode(), new_value);
+        }
+    }
+
+
+
+    public static void refreshStockMarket(){
+        bankDisplay.setStock(bank.getAvailable_stocks());
+    }
+
     public static void tableButtonPress(String command, JTable jTable){
         switch(command){
             case "View Account":
@@ -166,6 +194,17 @@ public class BankSystem {
                 bank.loanStatusChange("Denied", pos);
                 manager_interface();
                 break;
+            case "Delete":
+                pos = jTable.getSelectedRow();
+                deleteStock(pos);
+                refreshStockMarket();
+                break;
+            case "Edit":
+                pos = jTable.getSelectedRow();
+                Double old_value = bank.getAvailable_stocks().get(pos).getValue();
+                Double old_number = bank.getAvailable_stocks().get(pos).getN_stocks();
+                bankDisplay.managerSetStock(old_value, old_number, pos);
+                break;
         }
     }
 
@@ -189,6 +228,8 @@ public class BankSystem {
             case "Bank Settings":
                 bankDisplay.managerSettings(bank.getMinimum_balance(), bank.getInterest_rate(), bank.getLoan_interest_rate(), bank.getService_charge(), bank.getInterest_balance());
                 break;
+            case "Stock Market":
+                bankDisplay.setStock(bank.getAvailable_stocks());
         }
     }
 
@@ -197,7 +238,7 @@ public class BankSystem {
         int starting_balance = 1000000;
         int minimum_balance = 100;
         int min_security_balance = 10000;
-        String manager_name = "manager";
+        String manager_name = "m";
         String manager_pass = "123";
         double service_charge = 15.0;
         double interest_rate = 8.0;
@@ -216,7 +257,8 @@ public class BankSystem {
         dbAffair.closeDB();
 
         bank = new Bank(bank_name, starting_balance, minimum_balance, manager_name, manager_pass, service_charge, interest_rate, loan_interest_rate, high_interest_balance, currencies, conversion_rates, account_types, min_security_balance, available_stocks, trading_fees);
-
+//         bank.newCustomer("p","p","123",10000,"Checking");
+//         bank.setCurrent_user(0);
         //bank.newCustomer("Aaron", "arn197", "123", 10000, "Checking");
         //bank.setCurrent_user(0);
         bankDisplay = new BankDisplay(bank, 1280, 720);
