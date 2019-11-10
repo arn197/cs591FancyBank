@@ -5,7 +5,7 @@
  Source Server Type    : MySQL
  Source Server Version : 50725
  Source Host           : localhost
- Source Database       : FancyBank
+ Source Database       : FancyBankTest
 
  Target Server Type    : MySQL
  Target Server Version : 50725

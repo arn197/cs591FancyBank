@@ -1,5 +1,6 @@
 import javax.print.DocFlavor;
 import javax.swing.plaf.nimbus.State;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,9 +12,22 @@ import java.util.ArrayList;
  */
 public class DBAffair {
     private Connection connect;
+    private static int flag = 0;
 
-    public DBAffair() throws SQLException {
+    public DBAffair() throws SQLException{
         connect = JDBCUtil.getConnection();
+        if(flag == 1) return;
+        try{
+            flag = 1;
+            ScriptRunner scriptRunner = new ScriptRunner(connect, true, true);
+            Reader reader = new BufferedReader(new FileReader("FancyBankv2/sql/FancyBank.sql"));
+            scriptRunner.runScript(reader);
+            System.out.print("Hello");
+            reader.close();
+        }
+        catch (Exception e){
+            System.out.print(e.toString());
+        }
     }
 
     /**
@@ -193,7 +207,7 @@ public class DBAffair {
                     if(!rs.next()) { // insert
                         sql = String.format("INSERT INTO customer_stock(customer_id, account_number, code, n_stocks) VALUES(%d, %d, '%s', %f)", customer_id, account_number, code, n_stocks);
                     }else{ // update
-                        sql = String.format("UPDATE customer_stock SET n_stocks = %f WHERE customer_id = %d AND account_number = %d AND code = '%s'", customer_id, account_number, code);
+                        sql = String.format("UPDATE customer_stock SET n_stocks = %f WHERE customer_id = %d AND account_number = %d AND code = '%s'", n_stocks, customer_id, account_number, code);
                     }
                     stmt.execute(sql);
                 }

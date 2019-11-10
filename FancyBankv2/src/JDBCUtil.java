@@ -8,6 +8,8 @@ public class JDBCUtil {
     private static String url;
     private static String user;
     private static String password;
+    private static String db_url;
+    private static String db_name;
 
     static {
         Properties prop = new Properties();
@@ -23,6 +25,8 @@ public class JDBCUtil {
             url = prop.getProperty("url");
             user = prop.getProperty("user");
             password = prop.getProperty("password");
+            db_url = prop.getProperty("db_url");
+            db_name = prop.getProperty("db_name");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -34,7 +38,15 @@ public class JDBCUtil {
     // get a connection
     public static Connection getConnection() throws SQLException {
         Connection conn = DriverManager.getConnection(url, user, password);
+        String sql = "create database if not exists " + db_name;
+        Statement s = conn.createStatement();
+        s.executeUpdate(sql);
+        conn = DriverManager.getConnection(db_url, user, password);
         return conn;
+    }
+
+    public static void main(String[] args) throws SQLException {
+        Connection connection = getConnection();
     }
 
     // release resource
