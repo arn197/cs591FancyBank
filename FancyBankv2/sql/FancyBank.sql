@@ -1,19 +1,3 @@
-/*
- Navicat Premium Data Transfer
-
- Source Server         : 127.0.0.1
- Source Server Type    : MySQL
- Source Server Version : 50725
- Source Host           : localhost
- Source Database       : FancyBankTest
-
- Target Server Type    : MySQL
- Target Server Version : 50725
- File Encoding         : utf-8
-
- Date: 11/07/2019 03:07:47 AM
-*/
-
 SET NAMES utf8;
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -110,6 +94,33 @@ BEGIN;
 INSERT INTO `stock` VALUES ('Google', '200', '1000');
 COMMIT;
 
+---- ----------------------------
+----  Table structure for `account_types`
+---- ----------------------------
+DROP TABLE IF EXISTS `account_types`;
+CREATE TABLE `account_types` (
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+BEGIN;
+INSERT INTO `account_types` VALUES ('Checking'),('Savings'),('Security');
+COMMIT;
+
+---- ----------------------------
+----  Table structure for `currencies`
+---- ----------------------------
+DROP TABLE IF EXISTS `currencies`;
+CREATE TABLE `currencies` (
+  `code` varchar(255) NOT NULL,
+  `conversion` double NOT NULL,
+  PRIMARY KEY (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+BEGIN;
+INSERT INTO `currencies` VALUES ('USD','1.0'),('GBP','1.30'),('INR','0.014');
+COMMIT;
+
 -- ----------------------------
 --  Table structure for `transaction`
 -- ----------------------------
@@ -133,5 +144,51 @@ CREATE TABLE `transaction` (
 BEGIN;
 INSERT INTO `transaction` VALUES ('0', 'general', '1', '0', '-1', '-1', '10000', null, null), ('1', 'general', '-2', '-2', '1', '-1', '15', null, null), ('2', 'general', '1', '0', '-1', '-1', '10000', null, null), ('3', 'general', '2', '0', '-1', '-1', '10000', null, null), ('4', 'general', '1', '1', '-1', '-1', '20000', null, null);
 COMMIT;
+
+DROP TABLE IF EXISTS `bank`;
+CREATE TABLE `bank` (
+    `bank_name` varchar(255) DEFAULT NULL,
+    `manager_username` varchar(255) DEFAULT NULL,
+    `manager_pass` varchar(255) DEFAULT NULL,
+    `starting_bal` double(255,0) DEFAULT NULL,
+    `min_bal` double(255,0) DEFAULT NULL,
+    `service_charge` double(255,0) DEFAULT NULL,
+    `interest` double(255,0) DEFAULT NULL,
+    `loan_interest` double(255,0) DEFAULT NULL,
+    `high_interest_bal` double(255,0) DEFAULT NULL,
+    `trading_fees` double(255,0) DEFAULT NULL,
+    `min_security_bal` double(255,0) DEFAULT NULL
+--    PRIMARY KEY (`manager_username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--BEGIN;
+--INSERT INTO `bank_settings` VALUES ('USD','1.0'),('GBP','1.30'),('INR','0.014');
+--COMMIT;
+BEGIN;
+INSERT INTO `bank` VALUES('Bank','manager','123','10000000','100','15.0','8.0','8.0','10000','20','10000');
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `bank_settings`
+-- ----------------------------
+--DROP TABLE IF EXISTS `bank_settings`
+--CREATE TABLE `bank_settings` (
+--  `bank_name` varchar(255) DEFAULT NULL,
+--  `manager_username` varchar(255) DEFAULT NULL,
+--  `manager_pass` varchar(255) DEFAULT NULL,
+--  `starting_bal` double(255,0) DEFAULT NULL,
+--  `min_bal` double(255,0) DEFAULT NULL,
+--  `service_charge` double(255,0) DEFAULT NULL,
+--  `interest` double(255,0) DEFAULT NULL,
+--  `loan_interest` double(255,0) DEFAULT NULL,
+--  `high_interest_bal` double(255,0) DEFAULT NULL,
+--  `trading_fees` double(255,0) DEFAULT NULL,
+--  `min_security_bal` double(255,0) DEFAULT NULL,
+--  PRIMARY KEY (`manager_username`)
+--) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--BEGIN;
+--INSERT INTO `bank_settings` VALUES('Bank','manager','123','10000000','100','15.0','8.0','8.0','10000','20','10000');
+--COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -58,15 +58,19 @@ public class JDBCUtil {
         return conn;
     }
 
-    public static void main(String[] args) throws SQLException {
-        Connection connection = getConnection();
-    }
+//    public static void main(String[] args) throws SQLException {
+//        Connection connection = getConnection();
+//    }
 
     // release resource
     public static void close(Connection conn) throws SQLException {
         if(conn != null) {
             conn.close();
         }
+    }
+
+    public static void close(Statement statement) throws SQLException{
+        if(statement != null) statement.close();
     }
 
      // release resource

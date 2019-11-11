@@ -1,5 +1,6 @@
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Bank {
     private String bank_name;
@@ -419,13 +420,26 @@ public class Bank {
         this.customers.get(customer_id).addAccount(account);
     }
 
+    public HashMap<String, String> constructSettings(){
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("bank_name", bank_name);
+        hashMap.put("min_bal", String.valueOf(minimum_balance));
+        hashMap.put("interest", String.valueOf(interest_rate));
+        hashMap.put("loan_interest", String.valueOf(loan_interest_rate));
+        hashMap.put("min_security_bal", String.valueOf(min_security_balance));
+        hashMap.put("service_charge", String.valueOf(service_charge));
+        hashMap.put("high_interest_bal", String.valueOf(interest_balance));
+        hashMap.put("trading_fees", String.valueOf(trading_fees));
+        return hashMap;
+    }
+
 
     public void logout() throws SQLException {
         DBAffair dbAffair = new DBAffair();
         Customer customer = customers.get(getCurrent_user());
         this.manager_online = 0;
         current_user = -1;
-        dbAffair.update(customer, getTransactions(), available_stocks);
+        dbAffair.update(customer, getTransactions(), available_stocks, constructSettings());
         dbAffair.closeDB();
     }
 

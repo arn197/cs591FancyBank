@@ -71,7 +71,7 @@ public class BankDisplay extends JFrame {
                         Customer customer = bank.getCustomers().get(bank.getCurrent_user());
                         ArrayList<Transaction> transactions = bank.getTransactions();
                         ArrayList<Stock> stocks = bank.getAvailable_stocks();
-                        dbAffair.update(customer, transactions, stocks);
+                        dbAffair.update(customer, transactions, stocks, bank.constructSettings());
                         dbAffair.closeDB();
                     }
                 } catch (SQLException ex) {

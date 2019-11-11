@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class BankSystem {
 
@@ -234,17 +235,20 @@ public class BankSystem {
     }
 
     public static void start() throws SQLException {
-        String bank_name = "The Bank";
-        int starting_balance = 1000000;
-        int minimum_balance = 100;
-        int min_security_balance = 10000;
-        String manager_name = "m";
-        String manager_pass = "123";
-        double service_charge = 15.0;
-        double interest_rate = 8.0;
-        double loan_interest_rate = 8.0;
-        double high_interest_balance = 10000;
-        double trading_fees = 20;
+        DBAffair dbAffair = new DBAffair();
+        HashMap<String, String> settings = dbAffair.getSettings();
+        String bank_name = settings.get("bank_name");
+        int starting_balance = Integer.parseInt(settings.get("starting_bal"));
+        int minimum_balance = Integer.parseInt(settings.get("min_bal"));
+        int min_security_balance = Integer.parseInt(settings.get("min_security_bal"));
+        String manager_name = settings.get("manager_username");
+        String manager_pass = settings.get("manager_pass");
+        double service_charge = Double.parseDouble(settings.get("service_charge"));
+        double interest_rate = Double.parseDouble(settings.get("interest"));
+        double loan_interest_rate = Double.parseDouble(settings.get("loan_interest"));
+        double high_interest_balance = Double.parseDouble(settings.get("high_interest_bal"));
+        double trading_fees = Double.parseDouble(settings.get("trading_fees"));
+
         String[] currencies = new String[]{"USD","GBP","INR"};
         Double[] conversion_rates = new Double[]{1.0, 1.30, 0.014};
         ArrayList<String> account_types = new ArrayList<>();
@@ -252,7 +256,6 @@ public class BankSystem {
         account_types.add("Savings");
         account_types.add("Security");
 
-        DBAffair dbAffair = new DBAffair();
         ArrayList<Stock> available_stocks = dbAffair.getAllStocks();
         dbAffair.closeDB();
 

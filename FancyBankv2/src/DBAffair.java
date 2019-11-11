@@ -1,11 +1,9 @@
 import javax.print.DocFlavor;
 import javax.swing.plaf.nimbus.State;
 import java.io.*;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * The class is used to manage the affair related to the database.
@@ -36,6 +34,39 @@ public class DBAffair {
         catch (Exception e){
             System.out.print(e.toString());
         }
+    }
+
+    public HashMap<String, String> getSettings() throws SQLException{
+        HashMap<String, String> out = new HashMap<>();
+        String sql = "SELECT * FROM bank";
+        Statement stmt = connect.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+        rs.next();
+        ResultSetMetaData rsmd = rs.getMetaData();
+        int count = rsmd.getColumnCount(), i = 1;
+        while(i <= count){
+            out.put(rsmd.getColumnLabel(i), rs.getString(i));
+            i++;
+        }
+        return out;
+    }
+
+    public void setSettings(HashMap<String, String> settings) throws SQLException{
+        Statement statement = connect.createStatement();
+        StringBuilder sql = new StringBuilder("UPDATE bank SET ");
+        String name = settings.get("bank_name");
+        settings.remove("bank_name");
+        int count = 0;
+        for(HashMap.Entry<String, String> entry: settings.entrySet()){
+            if(count == settings.size() - 1) sql.append(entry.getKey()).append(" = ").append(entry.getValue()).append(" ");
+            else sql.append(entry.getKey()).append(" = ").append(entry.getValue()).append(",");
+            count++;
+        }
+
+        sql.append("WHERE bank_name = \'").append(name).append("\'");
+        System.out.print(sql);
+        statement.executeUpdate(sql.toString());
+        JDBCUtil.close(statement);
     }
 
     /**
@@ -368,7 +399,7 @@ public class DBAffair {
         }
     }
 
-    public void update(Customer customer, ArrayList<Transaction>transactions, ArrayList<Stock>stocks) throws SQLException {
+    public void update(Customer customer, ArrayList<Transaction>transactions, ArrayList<Stock>stocks, HashMap<String, String> hashMap) throws SQLException {
         updateCustomer(customer);
         for(Transaction transaction: transactions) {
             updateTransaction(transaction);
@@ -377,6 +408,8 @@ public class DBAffair {
         for(Stock stock: stocks) {
             updateStock(stock);
         }
+
+        setSettings(hashMap);
     }
 
     public void closeDB() throws SQLException {
