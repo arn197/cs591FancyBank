@@ -183,11 +183,10 @@ public class DBAffair {
 
         Statement stmt = connect.createStatement();
         ResultSet rs = stmt.executeQuery(sql);
-
-        if(!rs.next()) { // the account doesn't exist in the database, insert the information of the account into the database
+        rs.last();
+        if(rs.getRow() == 0) { // the account doesn't exist in the database, insert the information of the account into the database
             sql = String.format("INSERT INTO account(customer_id, account_number, type, balance, active) VALUES(%d, %d, '%s', %f, %d)", customer_id, account_number, type, balance, active);
             stmt.execute(sql);
-
             if(type.equals("Security")) {
                 SecurityAccount securityAccount = (SecurityAccount)account;
                 ArrayList<Stock> stocks = securityAccount.getStocks();
@@ -205,18 +204,31 @@ public class DBAffair {
             if(type.equals("Security")) {
                 SecurityAccount securityAccount = (SecurityAccount)account;
                 ArrayList<Stock> stocks = securityAccount.getStocks();
+                ArrayList<String> codes = new ArrayList<>();
                 for(Stock stock: stocks) {
                     String code = stock.getCode();
+                    codes.add(code);
 //                    double value = stock.getValue();
                     double n_stocks = stock.getN_stocks();
                     // check whether the stock of the customer in the database
                     sql = String.format("SELECT * FROM customer_stock WHERE customer_id = %d AND account_number = %d AND code = '%s'", customer_id, account_number, code);
                     rs = stmt.executeQuery(sql);
-                    if(!rs.next()) { // insert
+                    rs.last();
+                    if(rs.getRow() == -1) { // insert
                         sql = String.format("INSERT INTO customer_stock(customer_id, account_number, code, n_stocks) VALUES(%d, %d, '%s', %f)", customer_id, account_number, code, n_stocks);
                     }else{ // update
                         sql = String.format("UPDATE customer_stock SET n_stocks = %f WHERE customer_id = %d AND account_number = %d AND code = '%s'", n_stocks, customer_id, account_number, code);
                     }
+                    stmt.execute(sql);
+                }
+                sql = String.format("SELECT * FROM customer_stock WHERE customer_id = %d AND account_number = %d", customer_id, account_number);
+                rs = stmt.executeQuery(sql);
+                while(rs.next()){
+                    String code = rs.getString("code");
+                    codes.remove(code);
+                }
+                for(String code: codes){
+                    sql = String.format("DELETE FROM customer_stock WHERE customer_id = %d AND account_number = %d AND code = '%s'", customer_id, account_number, code);
                     stmt.execute(sql);
                 }
             }
@@ -314,12 +326,12 @@ public class DBAffair {
             int sending_user_id = rs.getInt("sending_user_id");
             double amount = rs.getDouble("amount");
             String code = rs.getString("code");
-            Double n_stock = rs.getDouble("n_stock");
+            double n_stock = rs.getDouble("n_stock");
             if(transaction_type.equals("general")) {
                 Transaction transaction = new Transaction(transaction_id, transaction_type, receiving_account_id, receiving_user_id, sending_account_id, sending_user_id, amount);
                 transactions.add(transaction);
             }else{
-                StockTransaction stockTransaction = new StockTransaction(transaction_id, transaction_type, receiving_account_id, receiving_account_id, sending_account_id, sending_user_id, amount, code, n_stock);
+                StockTransaction stockTransaction = new StockTransaction(transaction_id, transaction_type, receiving_account_id, receiving_user_id, sending_account_id, sending_user_id, amount, code, n_stock);
                 transactions.add(stockTransaction);
             }
         }

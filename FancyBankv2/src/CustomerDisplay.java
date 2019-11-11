@@ -51,7 +51,7 @@ public class CustomerDisplay {
         for(Transaction transaction: transactions){
             if(transaction instanceof StockTransaction){
                 StockTransaction t = (StockTransaction) transaction;
-                if(transaction.getSending_user_id() == customer.getCustomer_id()){
+                if(t.getSending_user_id() == customer.getCustomer_id()){
                     data[i][0] = "Buy";
                 }
                 else{
@@ -59,7 +59,7 @@ public class CustomerDisplay {
                 }
                 data[i][1] = t.getCode();
                 data[i][2] = "";
-                data[i][3] = String.valueOf(transaction.getAmount());
+                data[i][3] = String.valueOf(t.getAmount());
                 i += 1;
                 continue;
             }

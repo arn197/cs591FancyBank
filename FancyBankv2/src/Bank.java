@@ -312,7 +312,9 @@ public class Bank {
         Customer customer = customers.get(id);
         ArrayList<Transaction> trs = new ArrayList<>();
         for(Transaction transaction: this.transactions){
+            System.out.println(transaction.getReceiving_user_id());
             if(transaction.getReceiving_user_id() == customer.getCustomer_id() || transaction.getSending_user_id() == customer.getCustomer_id()){
+//                System.out.print(transaction.transaction_type);
                 trs.add(transaction);
             }
         }
