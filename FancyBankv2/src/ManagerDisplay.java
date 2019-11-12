@@ -126,6 +126,16 @@ public class ManagerDisplay {
 
         ActionListener actionListener = actionEvent -> {
             if (actionEvent.getActionCommand().equals("Done")) {
+                value_label.setText(value_label.getName());
+                number_label.setText(number_label.getName());
+                if(value_text.getText().length() == 0){
+                    value_label.setText("Please enter a number > 0");
+                    return;
+                }
+                if(number_text.getText().length() == 0){
+                    number_label.setText("Please enter a number > 0");
+                    return;
+                }
                 Double new_value = Double.parseDouble(value_text.getText());
                 Double new_number = Double.parseDouble(number_text.getText());
                 BankSystem.editStock(n, new_value, new_number);
@@ -186,10 +196,27 @@ public class ManagerDisplay {
 
         ActionListener actionListener = actionEvent -> {
             if(actionEvent.getActionCommand().equals("Add")){
-
+                settings.setText("");
+                if(jFormattedTextFields.get(0).getText().length() == 0){
+                    settings.setText("Please enter a code");
+                    return;
+                }
                 String new_code = jFormattedTextFields.get(0).getText();
-                Double new_value = Double.parseDouble(jFormattedTextFields.get(1).getText());
-                Double new_num = Double.parseDouble(jFormattedTextFields.get(2).getText());
+                Double new_value, new_num;
+                try{
+                    new_value = Double.parseDouble(jFormattedTextFields.get(1).getText());
+                }
+                catch (Exception e){
+                    settings.setText("Please enter a stock value above 0");
+                    return;
+                }
+                try{
+                    new_num = Double.parseDouble(jFormattedTextFields.get(2).getText());
+                }
+                catch (Exception e){
+                    settings.setText("Please enter a stock quantity above 0");
+                    return;
+                }
 
                 boolean succ = BankSystem.addStock(new_code, new_value, new_num);
                 if(!succ) settings.setText("Stock already exists!");

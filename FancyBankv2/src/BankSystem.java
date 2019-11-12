@@ -263,8 +263,8 @@ public class BankSystem {
 //         bank.newCustomer("p","p","123",10000,"Checking");
 //         bank.setCurrent_user(0);
         //bank.newCustomer("Aaron", "arn197", "123", 10000, "Checking");
-        bank.setCurrent_user(0);
+//        bank.setCurrent_user(0);
         bankDisplay = new BankDisplay(bank, 1280, 720);
-        customer_interface(-1);
+//        customer_interface(-1);
     }
 }
